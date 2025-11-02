@@ -284,10 +284,11 @@ class Form_validation {
         if (strpos($name, '|') !== false)
         {
             $arr = explode('|', $name);
-            $this->value = $this->post_arrays[array_shift($arr)];
+            $key = array_shift($arr);
+            $this->value = isset($this->post_arrays[$key]) ? $this->post_arrays[$key] : null;
             $this->name = end($arr);
         } else {
-            $this->value = $this->post_arrays[$name];
+            $this->value = isset($this->post_arrays[$name]) ? $this->post_arrays[$name] : null;
             $this->name = $name;
         }
 

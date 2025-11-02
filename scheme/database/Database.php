@@ -642,9 +642,13 @@ class Database {
      */
     public function join($table_name, $cond, $type = '')
     {
+        // Normalize type and ensure proper spacing, e.g. 'LEFT' or 'LEFT ' -> 'LEFT JOIN'
+        $type = trim($type);
+        $join_keyword = ($type !== '') ? $type . ' JOIN' : 'JOIN';
+
         $this->join = (is_null($this->join))
-            ? ' ' . $type . 'JOIN' . ' ' . $this->dbprefix.$table_name . ' ON ' . $cond
-            : $this->join . ' ' . $type . 'JOIN' . ' ' . $this->dbprefix.$table_name . ' ON ' . $cond;
+            ? ' ' . $join_keyword . ' ' . $this->dbprefix . $table_name . ' ON ' . $cond
+            : $this->join . ' ' . $join_keyword . ' ' . $this->dbprefix . $table_name . ' ON ' . $cond;
 
         return $this;
     }

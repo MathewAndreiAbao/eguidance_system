@@ -41,7 +41,7 @@ if( ! function_exists('filter_io'))
 	 *
 	 * @param string $type can be string, integer, etc...
 	 * @param string $var the data to be filtered
-	 * @return void
+	 * @return mixed
 	 */
 	function filter_io($type, $var)
 	{

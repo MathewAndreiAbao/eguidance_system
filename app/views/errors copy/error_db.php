@@ -6,9 +6,9 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
  * ------------------------------------------------------------------
  *
  * MIT License
- *
+ * 
  * Copyright (c) 2020 Ronald M. Marasigan
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -29,44 +29,64 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
  *
  * @package LavaLust
  * @author Ronald M. Marasigan <ronald.marasigan@yahoo.com>
+ * @copyright Copyright 2020 (https://ronmarasigan.github.io)
  * @since Version 1
- * @link https://github.com/ronmarasigan/LavaLust
+ * @link https://lavalust.pinoywap.org
  * @license https://opensource.org/licenses/MIT MIT License
  */
-
-/*
-| -------------------------------------------------------------------
-| DATABASE CONNECTIVITY SETTINGS
-| -------------------------------------------------------------------
-| This file will contain the settings needed to access your database.
-| -------------------------------------------------------------------
-| EXPLANATION OF VARIABLES
-| -------------------------------------------------------------------
-|
-|	['driver'] 		The driver of your database server.
-|	['hostname'] 	The hostname of your database server.
-|	['port'] 		The port used by your database server.
-|	['username'] 	The username used to connect to the database
-|	['password'] 	The password used to connect to the database
-|	['database'] 	The name of the database you want to connect to
-|	['charset']		The default character set
-|   ['dbprefix']    You can add an optional prefix, which will be added
-|				    to the table name when using the  Query Builder class
-|   You can create new instance of the database by adding new element of
-|   $database variable.
-|   Example: $database['another_example'] = array('key' => 'value')
-*/
-
-$database['main'] = array(
-    'driver'	=> 'mysql',
-    'hostname'	=> 'localhost',
-    'port'		=> '3306',
-    'username'	=> 'root',
-    'password'	=> '',
-    'database'	=> 'eguidance_system',
-    'charset'	=> 'utf8',
-    'dbprefix'	=> '',
-    'path'      => ''
-);
-
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Database Error Occured</title>
+    <style type="text/css">
+
+    *{
+        transition: all 0.6s;
+    }
+
+    html {
+        height: 100%;
+    }
+
+    body{
+        font-family: 'Lato', sans-serif;
+        color: #888;
+        margin: 0;
+    }
+
+    #main{
+        display: table;
+        width: 100%;
+        height: 100vh;
+        text-align: center;
+    }
+
+    .fof{
+          display: table-cell;
+          vertical-align: middle;
+    }
+
+    .fof h1{
+          font-size: 50px;
+          display: inline-block;
+          padding-right: 12px;
+          animation: type .5s alternate infinite;
+    }
+
+    @keyframes type{
+          from{box-shadow: inset -3px 0px 0px #888;}
+          to{box-shadow: inset -3px 0px 0px transparent;}
+    }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div class="fof">
+            <h1><?php echo $heading; ?></h1>
+            <p><?php echo $message; ?></p>
+        </div>
+    </div>
+</body>
+</html>
