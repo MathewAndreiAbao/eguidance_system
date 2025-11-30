@@ -5,6 +5,7 @@ class DashboardController extends Controller {
     
     public function __construct() {
         parent::__construct();
+        $this->call->database();
         $this->call->model('AppointmentModel');
         $this->call->model('UserModel');
         $this->call->model('ProfileModel');
@@ -13,7 +14,6 @@ class DashboardController extends Controller {
         $this->call->library('Auth');
         $this->call->library('pagination');
         $this->call->library('APIIntegration');
-
         
         if (!$this->Auth->is_logged_in()) {
             redirect('auth/login');

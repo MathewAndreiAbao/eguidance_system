@@ -4,6 +4,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 class FeedbackController extends Controller {
     public function __construct() {
         parent::__construct();
+        $this->call->database();
         $this->call->model('FeedbackModel');
         $this->call->model('UserModel');
         $this->call->library('auth');

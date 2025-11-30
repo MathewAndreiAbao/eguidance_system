@@ -7,6 +7,7 @@ class ChatbotController extends Controller {
     
     public function __construct() {
         parent::__construct();
+        $this->call->database();
         $this->call->library('session');
         $this->call->library('Auth');
         $this->call->library('APIIntegration');
