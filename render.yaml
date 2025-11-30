@@ -1,0 +1,22 @@
+# Render Deployment Configuration
+# This file provides guidance for deploying to Render
+
+# Web Service Configuration
+web_service:
+  name: eguidance-lavalust
+  dockerfile_path: LavaLust/Dockerfile
+  environment_variables:
+    - DB_DRIVER: mysql
+    - DB_HOST: sql12.freesqldatabase.com
+    - DB_NAME: sql12809964
+    - DB_USER: sql12809964
+    - DB_PASSWORD: TGGwVTnmyw
+    - DB_PORT: 3306
+    - GROQ_API_KEY: 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
+    - CALENDARIFIC_API_KEY: YOUR_CALENDARIFIC_API_KEY_HERE
+    - ZENQUOTES_API_KEY: YOUR_ZENQUOTES_API_KEY_HERE
+    - RECAPTCHA_SITE_KEY: 6LeLEBwsAAAAAAnYlN9wAbm52zSy53BHLeTTAGJz
+    - RECAPTCHA_SECRET_KEY: 6LeLEBwsAAAAABzESfPrMigOF0iW5OILmAi0oBqU
+    - BASE_URL: https://eguidance-lavalust.onrender.com
+    - APP_ENV: production
+    - APP_DEBUG: false
