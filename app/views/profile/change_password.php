@@ -39,24 +39,24 @@
                     <div>
                         <label for="current_password" class="block text-sm font-medium text-gray-700">Current Password</label>
                         <input type="password" name="current_password" id="current_password"
-                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                               class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                     </div>
 
                     <div>
                         <label for="new_password" class="block text-sm font-medium text-gray-700">New Password</label>
                         <input type="password" name="new_password" id="new_password"
-                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                               class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                     </div>
 
                     <div>
                         <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
                         <input type="password" name="confirm_password" id="confirm_password"
-                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                               class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                     </div>
                 </div>
 
                 <div class="mt-6">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                    <button type="submit" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded mr-2">
                         Change Password
                     </button>
                     <a href="<?= site_url('profile') ?>" class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">

@@ -25,55 +25,52 @@
             <h2 class="text-lg font-medium text-gray-900">Edit Profile</h2>
         </div>
 
-        <?php $error_msg = $session->flashdata('error'); if (!empty($error_msg)): ?>
+        <?php if ($session->flashdata('error')): ?>
             <div class="px-4 sm:px-6">
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                    <?= $error_msg ?>
+                    <?= $session->flashdata('error') ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        
+        <?php if ($session->flashdata('warning') || $session->userdata('needs_email')): ?>
+            <div class="px-4 sm:px-6">
+                <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+                    <?= $session->flashdata('warning') ?: 'Email address is required for account verification.' ?>
                 </div>
             </div>
         <?php endif; ?>
 
         <div class="px-4 py-5 sm:p-6">
-            <form action="<?= site_url('profile/edit') ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?= site_url('profile/edit') ?>" method="POST">
                 <div class="grid grid-cols-1 gap-6">
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
                         <input type="text" name="name" id="name" value="<?= html_escape($profile['name']) ?>"
-                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                               class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                     </div>
 
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
                         <input type="email" name="email" id="email" value="<?= html_escape($profile['email']) ?>"
-                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                               class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                     </div>
 
                     <div>
                         <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
                         <input type="tel" name="phone" id="phone" value="<?= html_escape($profile['phone']) ?>"
-                               class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                               class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                     </div>
 
                     <div>
                         <label for="bio" class="block text-sm font-medium text-gray-700">Bio</label>
                         <textarea name="bio" id="bio" rows="4"
-                                  class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required><?= html_escape($profile['bio']) ?></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Profile Picture</label>
-                        <div class="mt-2 flex items-center">
-                            <?php if($profile['picture']): ?>
-                                <img src="<?= site_url($profile['picture']) ?>" alt="Current Profile Picture" class="h-12 w-12 rounded-full mr-4">
-                            <?php endif; ?>
-                            <input type="file" name="picture" id="picture" accept="image/*"
-                                   class="focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300">
-                        </div>
+                                  class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required><?= html_escape($profile['bio']) ?></textarea>
                     </div>
                 </div>
 
                 <div class="mt-6">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                    <button type="submit" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded mr-2">
                         Save Changes
                     </button>
                     <a href="<?= site_url('profile') ?>" class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">

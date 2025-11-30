@@ -9,18 +9,6 @@
 ?>
 
 <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-    <?php
-    $dashboard_url = ($session && $session->userdata('role') == 'counselor') ? site_url('counselor/dashboard') : site_url('student/dashboard');
-    ?>
-    <div class="mb-4">
-        <a href="<?= $dashboard_url ?>" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-            <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            Back to Dashboard
-        </a>
-    </div>
-
     <?php if (!empty($error_msg)): ?>
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             <?= $error_msg ?>
@@ -38,26 +26,20 @@
                     <?php if($session && $session->userdata('role') == 'student'): ?>
                         <div>
                             <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
-                            <input type="date" name="date" id="date" value="<?= $appointment['date'] ?>" min="<?= date('Y-m-d') ?>" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                            <input type="date" name="date" id="date" value="<?= $appointment['date'] ?>" min="<?= date('Y-m-d') ?>" class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
 
                         <div>
                             <label for="time" class="block text-sm font-medium text-gray-700">Time</label>
-                            <select name="time" id="time" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
-                                <?php
-                                $start = strtotime('08:00');
-                                $end = strtotime('17:00');
-                                for ($i = $start; $i <= $end; $i += 3600) {
-                                    $time = date('H:i:s', $i);
-                                    echo '<option value="' . $time . '"' . ($appointment['time'] == $time ? ' selected' : '') . '>' . date('h:i A', $i) . '</option>';
-                                }
-                                ?>
+                            <select name="time" id="time" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" required>
+                                <option value="">Select Time</option>
+                                <!-- Time options will be populated dynamically by JavaScript -->
                             </select>
                         </div>
 
                         <div class="sm:col-span-2">
                             <label for="counselor_id" class="block text-sm font-medium text-gray-700">Preferred Counselor</label>
-                            <select name="counselor_id" id="counselor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <select name="counselor_id" id="counselor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
                                 <option value="">Select Counselor (Optional)</option>
                                 <?php if (!empty($counselors) && is_array($counselors)): ?>
                                 <?php foreach($counselors as $counselor): ?>
@@ -73,14 +55,15 @@
                         </div>
 
                         <div class="sm:col-span-2">
+                            <?php $purpose_value = $appointment['purpose'] ?? ''; ?>
                             <label for="purpose" class="block text-sm font-medium text-gray-700">Purpose of Appointment</label>
-                            <textarea name="purpose" id="purpose" rows="4" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required><?= $appointment['purpose'] ?></textarea>
+                            <textarea name="purpose" id="purpose" rows="4" class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required><?= html_escape($purpose_value) ?></textarea>
                         </div>
 
                     <?php elseif($session && $session->userdata('role') == 'counselor'): ?>
                         <div class="sm:col-span-2">
                             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                            <select name="status" id="status" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                            <select name="status" id="status" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" required>
                                 <option value="pending"<?= $appointment['status'] == 'pending' ? ' selected' : '' ?>>Pending</option>
                                 <option value="approved"<?= $appointment['status'] == 'approved' ? ' selected' : '' ?>>Approved</option>
                                 <option value="completed"<?= $appointment['status'] == 'completed' ? ' selected' : '' ?>>Completed</option>
@@ -104,12 +87,114 @@
                 </div>
 
                 <div class="mt-6">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"><?php echo ($session && $session->userdata('role') == 'counselor') ? 'Update Status' : 'Save Changes'; ?></button>
+                    <button type="submit" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded mr-2"><?php echo ($session && $session->userdata('role') == 'counselor') ? 'Update Status' : 'Save Changes'; ?></button>
                     <a href="<?= site_url('appointments') ?>" class="inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancel</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+// Function to get available time slots for a date
+async function getAvailableTimes(date, counselorId = null) {
+    const formData = new FormData();
+    formData.append('date', date);
+    if (counselorId) {
+        formData.append('counselor_id', counselorId);
+    }
+    
+    try {
+        const response = await fetch('<?= site_url('appointments/check_availability') ?>', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        return data.booked_slots || [];
+    } catch (error) {
+        console.error('Error fetching booked slots:', error);
+        return [];
+    }
+}
+
+// Function to populate time dropdown with only available slots
+async function updateAvailableTimes() {
+    const selectedDate = document.getElementById('date').value;
+    const timeSelect = document.getElementById('time');
+    const counselorSelect = document.getElementById('counselor_id');
+    const counselorId = counselorSelect ? counselorSelect.value : null;
+    
+    // Clear current options except the first one
+    timeSelect.innerHTML = '<option value="">Select Time</option>';
+    
+    if (!selectedDate) return;
+    
+    try {
+        // Get booked slots for the selected date
+        const bookedSlots = await getAvailableTimes(selectedDate, counselorId);
+        
+        // Generate time slots from 8:00 AM to 5:00 PM (hourly)
+        const startHour = 8;
+        const endHour = 17;
+        
+        for (let hour = startHour; hour <= endHour; hour++) {
+            const timeValue = `${hour.toString().padStart(2, '0')}:00:00`;
+            const timeDisplay = `${(hour % 12 || 12)}:${'00'.padStart(2, '0')} ${hour >= 12 ? 'PM' : 'AM'}`;
+            
+            // Only add time slot if it's not booked
+            if (!bookedSlots.includes(timeValue)) {
+                const option = document.createElement('option');
+                option.value = timeValue;
+                option.textContent = timeDisplay;
+                
+                // Check if this is the currently selected time
+                const currentAppointmentTime = '<?= $appointment['time'] ?? '' ?>';
+                if (currentAppointmentTime === timeValue) {
+                    option.selected = true;
+                }
+                
+                timeSelect.appendChild(option);
+            }
+        }
+        
+        // If the current appointment time is booked, add it as a disabled option
+        const currentAppointmentTime = '<?= $appointment['time'] ?? '' ?>';
+        if (currentAppointmentTime && bookedSlots.includes(currentAppointmentTime)) {
+            const option = document.createElement('option');
+            option.value = currentAppointmentTime;
+            option.textContent = `Current Time: ${formatTimeDisplay(currentAppointmentTime)} (Booked)`;
+            option.disabled = true;
+            option.selected = true;
+            timeSelect.appendChild(option);
+        }
+    } catch (error) {
+        console.error('Error updating time slots:', error);
+    }
+}
+
+// Helper function to format time display
+function formatTimeDisplay(timeValue) {
+    const [hours, minutes] = timeValue.split(':');
+    const hour = parseInt(hours);
+    return `${(hour % 12 || 12)}:${minutes} ${hour >= 12 ? 'PM' : 'AM'}`;
+}
+
+// Event listener for date change
+document.getElementById('date').addEventListener('change', updateAvailableTimes);
+
+// Event listener for counselor selection change
+document.getElementById('counselor_id').addEventListener('change', updateAvailableTimes);
+
+// Initialize available times on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Set the initial date value
+    const dateInput = document.getElementById('date');
+    if (dateInput.value) {
+        // Small delay to ensure DOM is fully loaded
+        setTimeout(updateAvailableTimes, 100);
+    }
+});
+</script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

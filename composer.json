@@ -1,0 +1,21 @@
+{
+    "name": "eguidance/system",
+    "description": "E-Guidance System",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "classmap": [
+            "app/controllers",
+            "app/models",
+            "app/libraries"
+        ]
+    },
+    "config": {
+        "vendor-dir": "../vendor"
+    }
+}

@@ -25,25 +25,64 @@ class UserModel extends Model {
         return $this->delete($id);
     }
 
+    /**
+     * Get user by username
+     * @param string $username
+     * @return array|null
+     */
     public function get_user_by_username($username) {
-        return $this->filter(['username' => $username])->get();
+        $result = $this->db->table($this->table)
+            ->where('username', $username)
+            ->get();
+        return is_array($result) ? $result : null;
     }
 
-    public function getAllCounselors() {
-        return $this->filter(['role' => 'counselor'])->get_all();
-    }
-
+    /**
+     * Get all counselors with their profile information
+     * @return array
+     */
     public function get_all_counselors() {
-        return $this->filter(['role' => 'counselor'])->get_all();
+        $db = Database::instance('main');
+        $counselors = $db->table('users u')
+            ->join('profiles p', 'u.id = p.user_id', 'left')
+            ->where('u.role', 'counselor')
+            ->select('u.id, u.username, u.role, p.name, p.email, p.phone')
+            ->get_all();
+        
+        return is_array($counselors) ? $counselors : [];
     }
 
+    /**
+     * Get all counselors (deprecated - use get_all_counselors instead)
+     * @return array
+     * @deprecated Use get_all_counselors() instead
+     */
+    public function getAllCounselors() {
+        return $this->get_all_counselors();
+    }
+
+    /**
+     * Get all students
+     * @return array
+     */
     public function get_all_students() {
-        return $this->filter(['role' => 'student'])->get_all();
+        $result = $this->db->table($this->table)
+            ->where('role', 'student')
+            ->get_all();
+        return is_array($result) ? $result : [];
     }
 
+    /**
+     * Check if username exists
+     * @param string $username
+     * @return bool
+     */
     public function username_exists($username) {
-        $row = $this->filter(['username' => $username])->limit(1)->get();
-        return !empty($row);
+        $result = $this->db->table($this->table)
+            ->where('username', $username)
+            ->limit(1)
+            ->get();
+        return !empty($result);
     }
 
     public function verify_password($username, $password) {

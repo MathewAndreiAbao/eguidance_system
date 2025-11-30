@@ -21,34 +21,41 @@ class ProfileController extends Controller {
         $user_id = $this->session->userdata('user_id');
 
         if ($_POST) {
-            $data = [
-                'name' => filter_io('string', $this->io->post('name')),
-                'email' => filter_io('string', $this->io->post('email')),
-                'phone' => filter_io('string', $this->io->post('phone')),
-                'bio' => filter_io('string', $this->io->post('bio'))
-            ];
+            // Load form validation library
+            $this->call->library('form_validation');
+            
+            // Set validation rules
+            $this->form_validation->name('name')->required();
+            $this->form_validation->name('email')->required()->valid_email();
+            $this->form_validation->name('phone')->required()->numeric();
+            $this->form_validation->name('bio')->required()->min_length(10);
+            
+            // Run validation
+            if ($this->form_validation->run()) {
+                $data = [
+                    'name' => filter_io('string', $this->io->post('name')),
+                    'email' => filter_io('string', $this->io->post('email')),
+                    'phone' => filter_io('string', $this->io->post('phone')),
+                    'bio' => filter_io('string', $this->io->post('bio'))
+                ];
 
-            // Handle picture upload if present
-            if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
-                $config['upload_path'] = './public/uploads/profiles/';
-                $config['allowed_types'] = 'gif|jpg|jpeg|png';
-                $config['max_size'] = 2048; // 2MB
-                $config['encrypt_name'] = true;
-
-                $this->call->library('upload', $config);
-
-                if ($this->upload->do_upload('picture')) {
-                    $upload_data = $this->upload->data();
-                    $data['picture'] = 'uploads/profiles/' . $upload_data['file_name'];
+                // Get the profile by user_id to get the actual profile id
+                $profile = $this->ProfileModel->get_profile_by_user_id($user_id);
+                if ($profile) {
+                    $this->ProfileModel->update_record($profile['id'], $data);
+                    $this->session->set_flashdata('success', 'Profile updated successfully');
                 } else {
-                    $this->session->set_flashdata('error', $this->upload->display_errors());
-                    redirect('profile/edit');
+                    $this->session->set_flashdata('error', 'Profile not found');
                 }
+                redirect('profile');
+            } else {
+                // Validation failed, show errors
+                $errors = $this->form_validation->get_errors();
+                $this->session->set_flashdata('error', implode('<br>', $errors));
+                $data['profile'] = $this->ProfileModel->get_profile_with_user($user_id);
+                $this->call->view('profile/edit', $data);
+                return;
             }
-
-            $this->ProfileModel->update_record($user_id, $data);
-            $this->session->set_flashdata('success', 'Profile updated successfully');
-            redirect('profile');
         } else {
             $data['profile'] = $this->ProfileModel->get_profile_with_user($user_id);
             $this->call->view('profile/edit', $data);
@@ -59,17 +66,34 @@ class ProfileController extends Controller {
         if (!$this->auth->is_logged_in()) redirect('auth/login');
 
         if ($_POST) {
-            $old = $this->io->post('old_password');
-            $new = $this->io->post('new_password');
-            $confirm = $this->io->post('confirm_password');
+            // Load form validation library
+            $this->call->library('form_validation');
+            
+            // Set validation rules
+            $this->form_validation->name('old_password')->required()->min_length(6);
+            $this->form_validation->name('new_password')->required()->min_length(6);
+            $this->form_validation->name('confirm_password')->required()->min_length(6);
+            
+            // Run validation
+            if ($this->form_validation->run()) {
+                $old = $this->io->post('old_password');
+                $new = $this->io->post('new_password');
+                $confirm = $this->io->post('confirm_password');
 
-            if ($new === $confirm) {
-                $user_id = $this->session->userdata('user_id');
-                $this->UserModel->update_record($user_id, [
-                    'password' => password_hash($new, PASSWORD_DEFAULT)
-                ]);
-                $this->session->set_flashdata('success', 'Password changed successfully');
-                redirect('profile');
+                if ($new === $confirm) {
+                    $user_id = $this->session->userdata('user_id');
+                    $this->UserModel->update_record($user_id, [
+                        'password' => password_hash($new, PASSWORD_DEFAULT)
+                    ]);
+                    $this->session->set_flashdata('success', 'Password changed successfully');
+                    redirect('profile');
+                } else {
+                    $this->session->set_flashdata('error', 'New password and confirm password do not match');
+                }
+            } else {
+                // Validation failed, show errors
+                $errors = $this->form_validation->get_errors();
+                $this->session->set_flashdata('error', implode('<br>', $errors));
             }
         }
 

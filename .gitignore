@@ -1,19 +1,66 @@
+# System Files
 .DS_Store
+Thumbs.db
 
-app/vendor/*
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
 
+# Build Artifacts
+node_modules/
+vendor/
+
+# Runtime Files
 runtime/*
 !runtime/.htaccess
 !runtime/index.html
 
-# IDE Files
-#-------------------------
-/nbproject/
-.idea/*
+# Environment Files
+.env
+.env.local
+.env.*.local
 
-## Sublime Text cache files
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
-*.sublime-workspace
+# Logs
+*.log
+
+# Composer
+composer.phar
+composer.lock
+
+# Package Managers
+package-lock.json
+yarn.lock
+
+# IDE Specific
+.netbeans/
+.vs/
+
+# OS Generated Files
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Icon?
+
+# Editor
 *.sublime-project
+*.sublime-workspace
+*.vscode/*
+
+# Backup files
+*.bak
+*.tmp
+
+# Temporary files
+tmp/
+*.tmp
+
+# Database
+*.sql
+*.dump
+
+# Render specific
+.env.render

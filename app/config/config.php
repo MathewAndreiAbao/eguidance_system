@@ -79,7 +79,7 @@ $config['ENVIRONMENT']             = 'development';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= '';
+$config['base_url'] 				= 'http://localhost:8080/';
 
 /*
 |--------------------------------------------------------------------------
@@ -128,7 +128,8 @@ $config['log_dir']                  = 'runtime/logs/';
 | Note: This will NOT disable or override the LavaLust-specific
 |	autoloading (app/config/autoload.php)
 */
-$config['composer_autoload']        = FALSE;
+$config['composer_autoload']        = dirname(ROOT_DIR) . '/vendor/autoload.php';
+
 
 /*
 |--------------------------------------------------------------------------
@@ -307,4 +308,16 @@ $config['csrf_token_name']         = 'csrf_test_name';
 $config['csrf_cookie_name']        = 'csrf_cookie_name';
 $config['csrf_expire']             = 7200;
 $config['csrf_regenerate']         = FALSE;
+
+/*
+|--------------------------------------------------------------------------
+| reCAPTCHA Configuration
+|--------------------------------------------------------------------------
+| Get your keys from https://www.google.com/recaptcha/admin
+|
+*/
+$config['recaptcha_site_key']      = getenv('RECAPTCHA_SITE_KEY') ?: '6LeLEBwsAAAAAAnYlN9wAbm52zSy53BHLeTTAGJz';
+$config['recaptcha_secret_key']    = getenv('RECAPTCHA_SECRET_KEY') ?: '6LeLEBwsAAAAABzESfPrMigOF0iW5OILmAi0oBqU';
+$config['recaptcha_version']       = 'v2'; // Options: 'v2', 'v3', 'invisible'
+
 ?>
