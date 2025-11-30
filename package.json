@@ -1,0 +1,14 @@
+{
+  "name": "eguidance-lavalust",
+  "version": "1.0.0",
+  "description": "E-Guidance Platform built with LavaLust Framework",
+  "scripts": {
+    "build-css": "tailwindcss build -i ./LavaLust/public/css/input.css -o ./LavaLust/public/css/output.css",
+    "watch-css": "tailwindcss build -i ./LavaLust/public/css/input.css -o ./LavaLust/public/css/output.css --watch",
+    "build-prod": "tailwindcss build -i ./LavaLust/public/css/input.css -o ./LavaLust/public/css/output.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  },
+  "dependencies": {}
+}

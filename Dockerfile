@@ -23,10 +23,10 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Copy root files
-COPY ../.env.example /var/www/html/
-COPY ../mysql_schema.sql /var/www/html/
-COPY ../package.json /var/www/html/
-COPY ../tailwind.config.js /var/www/html/
+COPY .env.example /var/www/html/
+COPY mysql_schema.sql /var/www/html/
+COPY package.json /var/www/html/
+COPY tailwind.config.js /var/www/html/
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
