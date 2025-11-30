@@ -13,29 +13,21 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install Node.js and npm
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
-
-# Set working directory
-WORKDIR /var/www/html
 
 # Copy application files
 COPY . /var/www/html/
 
-# Copy root files
-COPY .env.example /var/www/html/
-COPY mysql_schema.sql /var/www/html/
-COPY package.json /var/www/html/
-COPY tailwind.config.js /var/www/html/
+# Set working directory
+WORKDIR /var/www/html
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Install Node.js dependencies
-RUN npm install
-
-# Build Tailwind CSS
-RUN npm run build-prod
+# Skip Node.js dependencies and Tailwind build since output.css is already compiled
+# This avoids potential build errors during deployment
+# Existing output.css file will be used
 
 # Expose port
 EXPOSE 80
