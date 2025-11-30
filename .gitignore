@@ -16,6 +16,8 @@ vendor/
 runtime/*
 !runtime/.htaccess
 !runtime/index.html
+!runtime/session/
+!runtime/session/.gitkeep
 
 # Environment Files
 .env
