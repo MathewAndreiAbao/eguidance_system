@@ -31,7 +31,8 @@ class UserModel extends Model {
      * @return array|null
      */
     public function get_user_by_username($username) {
-        $result = $this->db->table($this->table)
+        $db = Database::instance('main');
+        $result = $db->table($this->table)
             ->where('username', $username)
             ->get();
         return is_array($result) ? $result : null;
@@ -66,7 +67,8 @@ class UserModel extends Model {
      * @return array
      */
     public function get_all_students() {
-        $result = $this->db->table($this->table)
+        $db = Database::instance('main');
+        $result = $db->table($this->table)
             ->where('role', 'student')
             ->get_all();
         return is_array($result) ? $result : [];
@@ -78,7 +80,8 @@ class UserModel extends Model {
      * @return bool
      */
     public function username_exists($username) {
-        $result = $this->db->table($this->table)
+        $db = Database::instance('main');
+        $result = $db->table($this->table)
             ->where('username', $username)
             ->limit(1)
             ->get();
