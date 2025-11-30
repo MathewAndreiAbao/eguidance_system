@@ -6,30 +6,26 @@ class Auth {
 
     public function __construct() {
         $this->_lava = lava_instance();
-        $this->_lava->call->database();
+        $this->_lava->call->model('UserModel');
         $this->_lava->call->library('session');
     }
 
-    public function register($username, $password, $role = 'user') {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        return $this->_lava->db->table('users')->insert([
-            'username' => $username,
-            'password' => $hash,
-            'role' => $role,
-            'created_at' => date('Y-m-d H:i:s')
-        ]);
+    public function register($username, $password, $role = 'student') {
+        return $this->_lava->UserModel->register($username, $password, $role);
     }
 
     public function login($username, $password) {
-        $user = $this->_lava->db->table('users')->where('username', $username)->get();
-        if ($user && password_verify($password, $user['password'])) {
-            $this->_lava->session->set_userdata([
-                'user_id' => $user['id'],
-                'username' => $user['username'],
-                'role' => $user['role'],
-                'logged_in' => true
-            ]);
-            return true;
+        if ($this->_lava->UserModel->verify_password($username, $password)) {
+            $user = $this->_lava->UserModel->get_user_by_username($username);
+            if ($user) {
+                $this->_lava->session->set_userdata([
+                    'user_id' => $user['id'],
+                    'username' => $user['username'],
+                    'role' => $user['role'],
+                    'logged_in' => true
+                ]);
+                return true;
+            }
         }
         return false;
     }
