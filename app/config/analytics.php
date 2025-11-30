@@ -15,7 +15,7 @@ return [
         // Calendarific API Integration
         'calendarific' => getenv('CALENDARIFIC_API_KEY') ?: 'u4nTWWaO6BhGBABL0AW0ax4ugprtPiiN',
         // Groq AI Chatbot API
-        'groq_api_key' => getenv('GROQ_API_KEY') ?: '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',
+        'groq_api_key' => getenv('GROQ_API_KEY') ?: 'YOUR_GROQ_API_KEY_HERE',
         // ZenQuotes API (no key required for basic usage)
         'zenquotes' => getenv('ZENQUOTES_API_KEY') ?: '',
     ],

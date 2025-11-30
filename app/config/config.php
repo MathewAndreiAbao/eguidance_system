@@ -316,8 +316,8 @@ $config['csrf_regenerate']         = FALSE;
 | Get your keys from https://www.google.com/recaptcha/admin
 |
 */
-$config['recaptcha_site_key']      = getenv('RECAPTCHA_SITE_KEY') ?: '6LeLEBwsAAAAAAnYlN9wAbm52zSy53BHLeTTAGJz';
-$config['recaptcha_secret_key']    = getenv('RECAPTCHA_SECRET_KEY') ?: '6LeLEBwsAAAAABzESfPrMigOF0iW5OILmAi0oBqU';
+$config['recaptcha_site_key']      = getenv('RECAPTCHA_SITE_KEY') ?: 'YOUR_RECAPTCHA_SITE_KEY';
+$config['recaptcha_secret_key']    = getenv('RECAPTCHA_SECRET_KEY') ?: 'YOUR_RECAPTCHA_SECRET_KEY';
 $config['recaptcha_version']       = 'v2'; // Options: 'v2', 'v3', 'invisible'
 
 ?>
