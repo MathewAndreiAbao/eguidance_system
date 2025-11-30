@@ -64,7 +64,7 @@ $config['VERSION']                 = '4.4.1';
 | -------------------------------------------------------------------
 | Values: development and production
 */
-$config['ENVIRONMENT']             = 'development';
+$config['ENVIRONMENT']             = getenv('APP_ENV') ?: 'production';
 
 /*
 |--------------------------------------------------------------------------
@@ -79,7 +79,7 @@ $config['ENVIRONMENT']             = 'development';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= 'http://localhost:8080/';
+$config['base_url'] 				= getenv('BASE_URL') ?: 'https://your-app-name.onrender.com/';
 
 /*
 |--------------------------------------------------------------------------
