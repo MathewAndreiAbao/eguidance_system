@@ -79,7 +79,7 @@ $config['ENVIRONMENT']             = getenv('APP_ENV') ?: 'production';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= getenv('BASE_URL') ?: 'https://your-app-name.onrender.com/';
+$config['base_url'] 				= getenv('BASE_URL') ?: 'https://eguidance-lavalust.onrender.com/';
 
 /*
 |--------------------------------------------------------------------------
