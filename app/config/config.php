@@ -316,3 +316,4 @@ $config['csrf_regenerate']         = FALSE;
 | Database connection settings for the Notes application
 |
 */
+?>
