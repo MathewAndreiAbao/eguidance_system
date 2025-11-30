@@ -56,7 +56,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 | LavaLust Version
 | -------------------------------------------------------------------
 */
-$config['VERSION']                 = '4.4.1';
+$config['VERSION']                 = '4.4.0';
 
 /*
 | -------------------------------------------------------------------
@@ -64,7 +64,7 @@ $config['VERSION']                 = '4.4.1';
 | -------------------------------------------------------------------
 | Values: development and production
 */
-$config['ENVIRONMENT']             = getenv('APP_ENV') ?: 'production';
+$config['ENVIRONMENT']             = 'development';
 
 /*
 |--------------------------------------------------------------------------
@@ -79,7 +79,7 @@ $config['ENVIRONMENT']             = getenv('APP_ENV') ?: 'production';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= getenv('BASE_URL') ?: 'https://eguidance-lavalust.onrender.com/';
+$config['base_url'] 				= '';
 
 /*
 |--------------------------------------------------------------------------
@@ -128,8 +128,7 @@ $config['log_dir']                  = 'runtime/logs/';
 | Note: This will NOT disable or override the LavaLust-specific
 |	autoloading (app/config/autoload.php)
 */
-$config['composer_autoload']        = dirname(ROOT_DIR) . '/vendor/autoload.php';
-
+$config['composer_autoload']        = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -216,8 +215,8 @@ $config['sess_driver']             = 'file';
 $config['sess_table']              = 'sessions';
 $config['sess_cookie_name']        = 'LLSession';
 $config['sess_expiration']         = 7200;
-$config['sess_save_path']          = ROOT_DIR . 'runtime/session/';
-$config['sess_match_ip']           = TRUE;
+$config['sess_save_path']          = '/tmp';
+$config['sess_match_ip']           = FALSE;
 $config['sess_match_fingerprint']  = TRUE;
 $config['sess_time_to_update']     = 300;
 $config['sess_regenerate_destroy'] = TRUE;
@@ -228,7 +227,7 @@ $config['lock_duration_invalid']   = 900;
 $config['max_session_creations']   = 10;
 $config['creation_window']         = 60;
 $config['lock_duration_creation']  = 120;
-$config['security_file']           = ROOT_DIR . 'runtime/session/session_security.json';
+$config['security_file']           = APP_DIR . 'runtime/session/session_security.json';
 
 /*
 |--------------------------------------------------------------------------
@@ -311,13 +310,10 @@ $config['csrf_regenerate']         = FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| reCAPTCHA Configuration
+| Database Settings
 |--------------------------------------------------------------------------
-| Get your keys from https://www.google.com/recaptcha/admin
+|
+| Database connection settings for the Notes application
 |
 */
-$config['recaptcha_site_key']      = getenv('RECAPTCHA_SITE_KEY') ?: '6LeLEBwsAAAAAAnYlN9wAbm52zSy53BHLeTTAGJz';
-$config['recaptcha_secret_key']    = getenv('RECAPTCHA_SECRET_KEY') ?: '6LeLEBwsAAAAABzESfPrMigOF0iW5OILmAi0oBqU';
-$config['recaptcha_version']       = 'v2'; // Options: 'v2', 'v3', 'invisible'
-
 ?>
