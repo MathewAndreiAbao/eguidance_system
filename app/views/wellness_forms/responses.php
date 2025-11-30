@@ -63,6 +63,12 @@
                 </div>
             <?php endforeach; ?>
         </div>
+        
+        <?php if (isset($pagination)): ?>
+            <div class="mt-6 flex justify-center">
+                <?= $pagination ?>
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
 

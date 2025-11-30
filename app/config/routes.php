@@ -45,6 +45,7 @@ $router->match('/appointments/edit/{id}', 'AppointmentController@edit', 'GET|POS
 $router->get('/appointments/delete/{id}', 'AppointmentController@delete');
 $router->get('/appointments/check_availability', 'AppointmentController@check_availability');
 $router->post('/appointments/check_availability', 'AppointmentController@check_availability');
+$router->post('/appointments/update_status/{id}', 'AppointmentController@update_status');
 $router->get('/appointments/holidays', 'AppointmentController@holidays');
 
 // Resources
@@ -79,6 +80,10 @@ $router->get('/wellness-forms/view/{id}', 'WellnessFormController@view');
 $router->match('/wellness-forms/create', 'WellnessFormController@create', 'GET|POST');
 $router->match('/wellness-forms/edit/{id}', 'WellnessFormController@edit', 'GET|POST');
 $router->get('/wellness-forms/delete/{id}', 'WellnessFormController@delete');
+$router->get('/wellness-forms/responses/{id}', 'WellnessFormController@responses');
+$router->get('/wellness-forms/responses/{id}/{page}', 'WellnessFormController@responses');
+$router->get('/wellness-forms/toggle_status/{id}', 'WellnessFormController@toggle_status');
+$router->post('/wellness-forms/respond/{id}', 'WellnessFormController@respond');
 
 // Career Guidance
 $router->get('/career-guidance', 'CareerGuidanceController@index');

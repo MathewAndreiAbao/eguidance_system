@@ -108,15 +108,18 @@ class AppointmentModel extends Model {
      * @param int $id Appointment ID
      * @param int $counselor_id Counselor ID
      * @param string $status New status
-     * @return bool Success status
+     * @return bool|int Number of affected rows or false on failure
      */
     public function update_status_for_counselor($id, $counselor_id, $status) {
-        return $this->db->table($this->table)
-                        ->where('id', $id)
-                        ->where('counselor_id', $counselor_id)
-                        ->update([
-                            'status' => $status,
-                            'updated_at' => date('Y-m-d H:i:s')
-                        ]);
+        $result = $this->db->table($this->table)
+                          ->where('id', $id)
+                          ->where('counselor_id', $counselor_id)
+                          ->update([
+                              'status' => $status,
+                              'updated_at' => date('Y-m-d H:i:s')
+                          ]);
+        
+        // Return true if at least one row was affected, false otherwise
+        return $result !== false && $result >= 0 ? $result : false;
     }
 }

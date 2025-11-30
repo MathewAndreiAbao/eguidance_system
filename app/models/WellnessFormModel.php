@@ -57,6 +57,12 @@ class WellnessFormModel extends Model {
 
         foreach ($questions as $question) {
             $question['wellness_form_id'] = $form_id;
+            
+            // Always remove scale fields to avoid database errors
+            // This is a temporary workaround until the database schema is updated
+            unset($question['scale_min']);
+            unset($question['scale_max']);
+            
             $this->db->table('wellness_form_questions')->insert($question);
         }
 

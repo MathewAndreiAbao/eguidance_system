@@ -336,7 +336,13 @@ class AppointmentController extends Controller {
                     }
                 }
 
-                $this->AppointmentModel->update_record($id, $data);
+                $updated = $this->AppointmentModel->update_record($id, $data);
+                
+                if ($updated === false) {
+                    $this->session->set_flashdata('error', 'Failed to update appointment');
+                    $this->call->view('appointments/edit', $data);
+                    return;
+                }
             
             // SMS notification temporarily disabled
             // $updated_appointment = $this->AppointmentModel->get_by_id($id);
@@ -659,7 +665,7 @@ class AppointmentController extends Controller {
                 $status
             );
             
-            if ($updated !== false) {
+            if ($updated !== false && $updated > 0) {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => true, 'message' => 'Appointment status updated', 'status' => $status]);
             } else {

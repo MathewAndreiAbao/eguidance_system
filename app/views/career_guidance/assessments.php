@@ -60,71 +60,79 @@
                 <?php endif; ?>
             </div>
         <?php else: ?>
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <?php foreach ($assessments as $assessment): ?>
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-medium text-gray-900 mb-2"><?= htmlspecialchars($assessment['title']) ?></h3>
                             <?php if ($role === 'counselor'): ?>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                                <div class="flex space-x-1">
+                                    <a href="<?= site_url('career-guidance/edit-assessment/' . $assessment['id']) ?>" class="text-blue-600 hover:text-blue-900">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="<?= site_url('career-guidance/delete-assessment/' . $assessment['id']) ?>" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this assessment?')">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </a>
+                                </div>
                             <?php endif; ?>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Created</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <?php foreach ($assessments as $assessment): ?>
-                            <tr>
-                                <?php if ($role === 'counselor'): ?>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= htmlspecialchars($assessment['student_name'] ?? 'N/A') ?></td>
-                                <?php endif; ?>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= htmlspecialchars($assessment['title']) ?></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 capitalize">
-                                        <?= htmlspecialchars($assessment['type']) ?>
+                        </div>
+                        
+                        <div class="text-sm text-gray-600 mb-3">
+                            <p><strong>Type:</strong> 
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 capitalize">
+                                    <?= htmlspecialchars($assessment['type']) ?>
+                                </span>
+                            </p>
+                            
+                            <?php if ($role === 'counselor' && !empty($assessment['student_name'])): ?>
+                                <p><strong>Student:</strong> <?= htmlspecialchars($assessment['student_name']) ?></p>
+                            <?php endif; ?>
+                            
+                            <p><strong>Date Created:</strong> <?= date('M d, Y', strtotime($assessment['created_at'])) ?></p>
+                            
+                            <p><strong>Status:</strong> 
+                                <?php if (!empty($assessment['score'])): ?>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Completed
                                     </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <?= date('M d, Y', strtotime($assessment['created_at'])) ?>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <?php if (!empty($assessment['score'])): ?>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                            Completed
-                                        </span>
-                                    <?php else: ?>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                            Pending
-                                        </span>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <?php if ($role === 'student'): ?>
-                                        <?php if (empty($assessment['score'])): ?>
-                                            <a href="<?= site_url('career-guidance/take-assessment/' . $assessment['id']) ?>" class="text-primary hover:text-secondary">
-                                                Take Assessment
-                                            </a>
-                                        <?php else: ?>
-                                            <a href="<?= site_url('career-guidance/take-assessment/' . $assessment['id']) ?>" class="text-primary hover:text-secondary">
-                                                View Results
-                                            </a>
-                                        <?php endif; ?>
-                                    <?php elseif ($role === 'counselor'): ?>
-                                        <a href="<?= site_url('career-guidance/edit-assessment/' . $assessment['id']) ?>" class="text-blue-600 hover:text-blue-900 mr-3">
-                                            Edit
-                                        </a>
-                                        <a href="<?= site_url('career-guidance/delete-assessment/' . $assessment['id']) ?>" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this assessment?')">
-                                            Delete
-                                        </a>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                                <?php else: ?>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        Pending
+                                    </span>
+                                <?php endif; ?>
+                            </p>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <?php if ($role === 'student'): ?>
+                                <?php if (empty($assessment['score'])): ?>
+                                    <a href="<?= site_url('career-guidance/take-assessment/' . $assessment['id']) ?>" class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-secondary">
+                                        Take Assessment
+                                    </a>
+                                <?php else: ?>
+                                    <a href="<?= site_url('career-guidance/take-assessment/' . $assessment['id']) ?>" class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                                        View Results
+                                    </a>
+                                <?php endif; ?>
+                            <?php elseif ($role === 'counselor'): ?>
+                                <a href="<?= site_url('career-guidance/edit-assessment/' . $assessment['id']) ?>" class="inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                    Manage Assessment
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
+            
+            <?php if (isset($pagination)): ?>
+                <div class="mt-6 flex justify-center">
+                    <?= $pagination ?>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 </div>

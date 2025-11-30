@@ -30,41 +30,9 @@ require_once __DIR__ . '/../includes/header.php';
         <!-- Map Container -->
         <div id="campus-map" class="w-full h-96 rounded-lg border border-gray-200 mb-6"></div>
         
-        <!-- Map Integration Details -->
+        <!-- Map displayed successfully -->
         <div class="prose max-w-none">
-            <h4 class="text-md font-medium text-gray-800 mb-2">OpenStreetMap API Setup</h4>
-            <p class="text-sm text-gray-600 mb-3">Interactive campus map implementation details:</p>
-            
-            <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                <h5 class="font-medium text-gray-700 mb-2">Implementation Details:</h5>
-                <ul class="list-disc pl-5 space-y-1 text-sm text-gray-600">
-                    <li><strong>Library Used:</strong> Leaflet.js (v1.9.4)</li>
-                    <li><strong>Tile Provider:</strong> OpenStreetMap</li>
-                    <li><strong>Endpoint:</strong> https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png</li>
-                    <li><strong>Attribution:</strong> &copy; <a href="https://www.openstreetmap.org/copyright" class="text-primary hover:underline">OpenStreetMap</a> contributors</li>
-                    <li><strong>Default Coordinates:</strong> Latitude 13.388380, Longitude 121.162682 (Guidance and Counseling Office, Mindoro State University Calapan Campus)</li>
-                    <li><strong>Zoom Level:</strong> 19</li>
-                </ul>
-            </div>
-            
-            <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                <h5 class="font-medium text-gray-700 mb-2">Configuration:</h5>
-                <p class="text-sm text-gray-600 mb-2">The OpenStreetMap integration is implemented directly in the frontend JavaScript without requiring API keys or server-side credentials.</p>
-                <p class="text-sm text-gray-600 mb-2"><strong>Implementation can be found in:</strong></p>
-                <ul class="list-disc pl-5 space-y-1 text-sm text-gray-600">
-                    <li>File: app/views/maps/campus.php</li>
-                    <li>Controller: app/controllers/MapsController.php</li>
-                </ul>
-            </div>
-            
-            <div class="bg-gray-50 p-4 rounded-lg">
-                <h5 class="font-medium text-gray-700 mb-2">Features:</h5>
-                <ul class="list-disc pl-5 space-y-1 text-sm text-gray-600">
-                    <li>Interactive campus map centered on Guidance and Counseling Office</li>
-                    <li>Marker for Guidance and Counseling Office (coordinates: 13.388380, 121.162682)</li>
-                    <li>Scale control for distance measurement</li>
-                </ul>
-            </div>
+            <p class="text-sm text-gray-600">Interactive campus map centered on Guidance and Counseling Office</p>
         </div>
     </div>
 </div>

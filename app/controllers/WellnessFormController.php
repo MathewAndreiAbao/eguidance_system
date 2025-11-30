@@ -61,7 +61,15 @@ class WellnessFormController extends Controller {
             $this->call->library('form_validation');
             
             // Set validation rules
-            $this->form_validation->name('title')->required()->min_length(5);
+            $this->form_validation->name('title')->required()->min_length(5)->max_length(255);
+            $this->form_validation->name('description')->max_length(1000);
+            
+            // Validate that we have questions
+            $questions = $this->io->post('questions');
+            if (empty($questions) || !is_array($questions)) {
+                $this->session->set_flashdata('error', 'At least one question is required.');
+                redirect('wellness-forms/create');
+            }
             
             // Run validation
             if ($this->form_validation->run()) {
@@ -73,8 +81,13 @@ class WellnessFormController extends Controller {
                 $scale_mins = $this->io->post('scale_min');
                 $scale_maxs = $this->io->post('scale_max');
 
-                if (empty($title) || empty($questions) || !is_array($questions)) {
-                    $this->session->set_flashdata('error', 'Title and at least one question are required.');
+                if (empty($title)) {
+                    $this->session->set_flashdata('error', 'Form title is required.');
+                    redirect('wellness-forms/create');
+                }
+                            
+                if (empty($questions) || !is_array($questions)) {
+                    $this->session->set_flashdata('error', 'At least one question is required.');
                     redirect('wellness-forms/create');
                 }
 
@@ -85,25 +98,49 @@ class WellnessFormController extends Controller {
                         continue;
                     }
 
-                    $type = isset($question_types[$index]) ? $question_types[$index] : 'text';
+                    // Validate and sanitize question type
+                    $type = isset($question_types[$index]) ? trim($question_types[$index]) : 'text';
                     $type = in_array($type, ['text', 'scale']) ? $type : 'text';
-                    $scale_min = isset($scale_mins[$index]) && $scale_mins[$index] !== '' ? (int) $scale_mins[$index] : 1;
-                    $scale_max = isset($scale_maxs[$index]) && $scale_maxs[$index] !== '' ? (int) $scale_maxs[$index] : 5;
-
-                    if ($scale_min >= $scale_max) {
-                        $scale_min = 1;
-                        $scale_max = 5;
-                    }
-
-                    $question_payload[] = [
+                    
+                    $question_data = [
                         'question_text' => $question_text,
                         'question_type' => $type,
                         'created_at' => date('Y-m-d H:i:s')
                     ];
+                    
+                    // Process scale values for scale type questions
+                    // Note: We're not including scale_min and scale_max in the database for now
+                    // due to potential database schema issues
+                    if ($type === 'scale') {
+                        $scale_min = isset($scale_mins[$index]) && $scale_mins[$index] !== '' ? (int) $scale_mins[$index] : 1;
+                        $scale_max = isset($scale_maxs[$index]) && $scale_maxs[$index] !== '' ? (int) $scale_maxs[$index] : 5;
+
+                        // Validate scale values
+                        if ($scale_min >= $scale_max) {
+                            $scale_min = 1;
+                            $scale_max = 5;
+                        }
+                        
+                        // Ensure reasonable scale ranges
+                        $scale_min = max(0, min(10, $scale_min));
+                        $scale_max = max(1, min(20, $scale_max));
+                        
+                        // We're not adding scale values to the database for now
+                        // This is a temporary workaround until the database schema is updated
+                    }
+                    // For text questions, we don't include scale_min and scale_max fields
+                    
+                    $question_payload[] = $question_data;
                 }
 
                 if (empty($question_payload)) {
-                    $this->session->set_flashdata('error', 'Add at least one valid question.');
+                    $this->session->set_flashdata('error', 'Add at least one valid question with text.');
+                    redirect('wellness-forms/create');
+                }
+                
+                // Validate that we don't have too many questions (reasonable limit)
+                if (count($question_payload) > 50) {
+                    $this->session->set_flashdata('error', 'A form cannot have more than 50 questions.');
                     redirect('wellness-forms/create');
                 }
 
@@ -121,7 +158,8 @@ class WellnessFormController extends Controller {
             } else {
                 // Validation failed, show errors
                 $errors = $this->form_validation->get_errors();
-                $this->session->set_flashdata('error', implode('<br>', $errors));
+                $error_message = 'Please correct the following errors:<br>' . implode('<br>', $errors);
+                $this->session->set_flashdata('error', $error_message);
                 redirect('wellness-forms/create');
             }
         }
@@ -203,7 +241,7 @@ class WellnessFormController extends Controller {
         redirect('wellness-forms/view/' . $id);
     }
 
-    public function responses($id) {
+    public function responses($id, $page = 1) {
         if (!$this->auth->is_logged_in()) redirect('auth/login');
         if ($this->session->userdata('role') !== 'counselor') {
             $this->session->set_flashdata('error', 'Only counselors can view responses.');
@@ -216,11 +254,29 @@ class WellnessFormController extends Controller {
             redirect('wellness-forms');
         }
 
+        // Pagination
+        $current_page = (int) segment(5) ?: 1;
+        $rows_per_page = 6;
         $responses = $this->WellnessFormModel->get_responses_with_answers($id);
-
+        $total_responses = count($responses);
+        $base_url = 'wellness-forms/responses/' . $id;
+        $offset = ($current_page - 1) * $rows_per_page;
+        
+        $page_data = $this->pagination->initialize(
+            $total_responses,
+            $rows_per_page,
+            $current_page,
+            $base_url,
+            5
+        );
+        
+        $this->pagination->set_theme('tailwind');
+        $paginated_responses = array_slice($responses, $offset, $rows_per_page);
+        
         $data = [
             'form' => $form,
-            'responses' => $responses
+            'responses' => $paginated_responses,
+            'pagination' => $this->pagination->paginate()
         ];
 
         $this->call->view('wellness_forms/responses', $data);

@@ -70,7 +70,7 @@
                             </div>
                             <?php if ($question['question_type'] === 'scale'): ?>
                                 <p class="text-sm text-gray-600">
-                                    Answer range: <?= (int) $question['scale_min'] ?> to <?= (int) $question['scale_max'] ?>
+                                    Answer range: <?= (int) ($question['scale_min'] ?? 1) ?> to <?= (int) ($question['scale_max'] ?? 5) ?>
                                 </p>
                             <?php endif; ?>
                         </li>
@@ -102,7 +102,7 @@
                             <?php if ($question['question_type'] === 'scale'): ?>
                                 <select name="answers[<?= $question['id'] ?>]" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
                                     <option value="" disabled selected>Select a value</option>
-                                    <?php for ($i = (int) $question['scale_min']; $i <= (int) $question['scale_max']; $i++): ?>
+                                    <?php for ($i = (int) ($question['scale_min'] ?? 1); $i <= (int) ($question['scale_max'] ?? 5); $i++): ?>
                                         <option value="<?= $i ?>"><?= $i ?></option>
                                     <?php endfor; ?>
                                 </select>
