@@ -316,4 +316,17 @@ $config['csrf_regenerate']         = FALSE;
 | Database connection settings for the Notes application
 |
 */
+
+/*
+|--------------------------------------------------------------------------
+| reCAPTCHA Configuration
+|--------------------------------------------------------------------------
+|
+| Settings for Google reCAPTCHA integration
+|
+*/
+$config['recaptcha_site_key'] = '6LeLEBwsAAAAAAnYlN9wAbm52zSy53BHLeTTAGJz';
+$config['recaptcha_secret_key'] = '6LeLEBwsAAAAABzESfPrMigOF0iW5OILmAi0oBqU';
+$config['recaptcha_version'] = 'v2';
+
 ?>

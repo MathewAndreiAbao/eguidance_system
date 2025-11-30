@@ -13,11 +13,11 @@ return [
     // API Keys for external services (Keep these secure!)
     'api_keys' => [
         // Calendarific API Integration
-        'calendarific' => getenv('CALENDARIFIC_API_KEY') ?: 'u4nTWWaO6BhGBABL0AW0ax4ugprtPiiN',
+        'calendarific' => 'u4nTWWaO6BhGBABL0AW0ax4ugprtPiiN',
         // Groq AI Chatbot API
-        'groq_api_key' => getenv('GROQ_API_KEY') ?: 'YOUR_GROQ_API_KEY_HERE',
+        'groq_api_key' => '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',
         // ZenQuotes API (no key required for basic usage)
-        'zenquotes' => getenv('ZENQUOTES_API_KEY') ?: '',
+        'zenquotes' => '',
     ],
 
     // API Endpoints for external services
