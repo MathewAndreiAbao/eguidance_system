@@ -830,26 +830,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
                     </div>
                 <?php endif; ?>
                 
-                <!-- Counseling Insights -->
-                <div class="bg-white shadow rounded-lg p-6">
-                    <h2 class="text-lg font-medium text-gray-900 mb-4">Counseling Insights</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h3 class="font-medium text-blue-800">Appointment Trends</h3>
-                            <p class="text-sm text-blue-600 mt-1">Monitor appointment patterns and student needs</p>
-                            <div class="mt-3 h-32 bg-white rounded flex items-center justify-center">
-                                <span class="text-gray-500">Appointment analytics chart would appear here</span>
-                            </div>
-                        </div>
-                        <div class="bg-green-50 p-4 rounded-lg">
-                            <h3 class="font-medium text-green-800">Resource Engagement</h3>
-                            <p class="text-sm text-green-600 mt-1">Track which resources are most helpful to students</p>
-                            <div class="mt-3 h-32 bg-white rounded flex items-center justify-center">
-                                <span class="text-gray-500">Resource engagement metrics would appear here</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
 
         <?php endif; ?>
