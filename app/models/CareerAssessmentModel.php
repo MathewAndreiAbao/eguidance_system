@@ -1,74 +1,44 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
-/**
- * Career Assessment Model
- * Handles career assessment data and results
- */
 class CareerAssessmentModel extends Model {
+    protected $table = 'career_assessments';
+    protected $primary_key = 'id';
 
-    public function __construct() {
-        parent::__construct();
-        $this->call->database();
+    public function get_all() {
+        return $this->db->table('career_assessments ca')
+                       ->join('users u', 'ca.student_id = u.id', 'LEFT')
+                       ->select('ca.*, u.username as student_name')
+                       ->order_by('ca.created_at DESC')
+                       ->get_all();
     }
 
-    /**
-     * Get all career assessments
-     */
-    public function get_all_assessments() {
-        return $this->db->table('career_assessments')
-            ->order_by('created_at', 'DESC')
-            ->get_all();
+    public function get_by_id($id) {
+        return $this->find($id);
     }
 
-    /**
-     * Get assessment by ID
-     */
-    public function get_assessment($id) {
-        return $this->db->table('career_assessments')
-            ->where('id', $id)
-            ->get();
+    public function get_by_student($student_id) {
+        return $this->db->table('career_assessments ca')
+                       ->join('users u', 'ca.student_id = u.id', 'LEFT')
+                       ->select('ca.*, u.username as student_name')
+                       ->where('ca.student_id', $student_id)
+                       ->order_by('ca.created_at DESC')
+                       ->get_all();
     }
 
-    /**
-     * Create a new assessment
-     */
-    public function create_assessment($data) {
-        return $this->db->table('career_assessments')->insert($data);
+    public function create_record($data) {
+        return $this->insert($data);
     }
 
-    /**
-     * Update an assessment
-     */
-    public function update_assessment($id, $data) {
-        return $this->db->table('career_assessments')
-            ->where('id', $id)
-            ->update($data);
+    public function update_record($id, $data) {
+        return $this->update($id, $data);
     }
 
-    /**
-     * Delete an assessment
-     */
-    public function delete_assessment($id) {
-        return $this->db->table('career_assessments')
-            ->where('id', $id)
-            ->delete();
+    public function delete_record($id) {
+        return $this->delete($id);
     }
-
-    /**
-     * Get assessment responses
-     */
-    public function get_responses($assessment_id) {
-        return $this->db->table('career_assessment_responses')
-            ->where('assessment_id', $assessment_id)
-            ->get_all();
-    }
-
-    /**
-     * Save assessment response
-     */
-    public function save_response($data) {
-        return $this->db->table('career_assessment_responses')->insert($data);
+    
+    public function count_all() {
+        return $this->db->table('career_assessments')->count();
     }
 }
-?>

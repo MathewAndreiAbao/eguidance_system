@@ -2,40 +2,17 @@
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 /**
- * Maps Configuration
- * Contains map settings and API configurations
+ * Map Configuration
+ * 
+ * This file contains configuration for map integrations.
  */
-
 return [
-    'default_zoom' => 15,
-    'campus_center' => [
-        'lat' => 13.4108,
-        'lng' => 121.1797
-    ],
-    'map_provider' => 'openstreetmap',
-    'api_keys' => [
-        'google_maps' => '',
-        'mapbox' => ''
-    ],
-    'markers' => [
-        'administration' => [
-            'name' => 'Administration Building',
-            'lat' => 13.4108,
-            'lng' => 121.1797,
-            'icon' => 'building'
-        ],
-        'library' => [
-            'name' => 'Library',
-            'lat' => 13.4105,
-            'lng' => 121.1795,
-            'icon' => 'book'
-        ],
-        'cafeteria' => [
-            'name' => 'Cafeteria',
-            'lat' => 13.4110,
-            'lng' => 121.1799,
-            'icon' => 'utensils'
-        ]
-    ]
+    // Default coordinates for Guidance and Counseling Office
+    'default_lat' => getenv('MAP_DEFAULT_LAT') ?: 13.388380,
+    'default_lng' => getenv('MAP_DEFAULT_LNG') ?: 121.162682,
+    'default_zoom' => getenv('MAP_DEFAULT_ZOOM') ?: 19,
+    
+    // Map tile provider
+    'tile_provider' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 ];
-?>

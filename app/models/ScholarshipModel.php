@@ -1,80 +1,76 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
-/**
- * Scholarship Model
- * Handles scholarship data and information
- */
 class ScholarshipModel extends Model {
+    protected $table = 'scholarships';
+    protected $primary_key = 'id';
 
-    public function __construct() {
-        parent::__construct();
-        $this->call->database();
+    public function get_all() {
+        return $this->db->table('scholarships s')
+                       ->join('users u', 's.created_by = u.id', 'LEFT')
+                       ->select('s.*, u.username as counselor_name')
+                       ->order_by('s.created_at DESC')
+                       ->get_all();
     }
 
-    /**
-     * Get all scholarships
-     */
-    public function get_all_scholarships() {
+    public function get_by_id($id) {
+        return $this->find($id);
+    }
+
+    public function get_active() {
+        $today = date('Y-m-d');
+        return $this->db->table('scholarships s')
+                       ->join('users u', 's.created_by = u.id', 'LEFT')
+                       ->select('s.*, u.username as counselor_name')
+                       ->where('s.application_deadline', '>=', $today)
+                       ->order_by('s.application_deadline ASC')
+                       ->get_all();
+    }
+    
+    public function get_active_paginated($offset, $limit) {
+        $today = date('Y-m-d');
+        return $this->db->table('scholarships s')
+                       ->join('users u', 's.created_by = u.id', 'LEFT')
+                       ->select('s.*, u.username as counselor_name')
+                       ->where('s.application_deadline', '>=', $today)
+                       ->order_by('s.application_deadline ASC')
+                       ->limit($limit, $offset)
+                       ->get_all();
+    }
+
+    public function search($keyword) {
+        return $this->db->table('scholarships s')
+                       ->join('users u', 's.created_by = u.id', 'LEFT')
+                       ->select('s.*, u.username as counselor_name')
+                       ->group_start()
+                           ->like('s.title', $keyword)
+                           ->or_like('s.description', $keyword)
+                           ->or_like('s.provider', $keyword)
+                       ->group_end()
+                       ->order_by('s.created_at DESC')
+                       ->get_all();
+    }
+
+    public function create_record($data) {
+        return $this->insert($data);
+    }
+
+    public function update_record($id, $data) {
+        return $this->update($id, $data);
+    }
+
+    public function delete_record($id) {
+        return $this->delete($id);
+    }
+    
+    public function count_all() {
+        return $this->db->table('scholarships')->count();
+    }
+    
+    public function count_active() {
+        $today = date('Y-m-d');
         return $this->db->table('scholarships')
-            ->order_by('name', 'ASC')
-            ->get_all();
-    }
-
-    /**
-     * Get scholarship by ID
-     */
-    public function get_scholarship($id) {
-        return $this->db->table('scholarships')
-            ->where('id', $id)
-            ->get();
-    }
-
-    /**
-     * Create a new scholarship
-     */
-    public function create_scholarship($data) {
-        return $this->db->table('scholarships')->insert($data);
-    }
-
-    /**
-     * Update a scholarship
-     */
-    public function update_scholarship($id, $data) {
-        return $this->db->table('scholarships')
-            ->where('id', $id)
-            ->update($data);
-    }
-
-    /**
-     * Delete a scholarship
-     */
-    public function delete_scholarship($id) {
-        return $this->db->table('scholarships')
-            ->where('id', $id)
-            ->delete();
-    }
-
-    /**
-     * Search scholarships by keyword
-     */
-    public function search_scholarships($keyword) {
-        return $this->db->table('scholarships')
-            ->like('name', $keyword)
-            ->or_like('description', $keyword)
-            ->or_like('provider', $keyword)
-            ->order_by('name', 'ASC')
-            ->get_all();
-    }
-
-    /**
-     * Get scholarships by type
-     */
-    public function get_by_type($type) {
-        return $this->db->table('scholarships')
-            ->where('type', $type)
-            ->order_by('name', 'ASC')
-            ->get_all();
+                       ->where('application_deadline', '>=', $today)
+                       ->count();
     }
 }
-?>
