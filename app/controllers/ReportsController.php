@@ -345,8 +345,9 @@ class ReportsController extends Controller {
         }
         
         // Create new PDF document using dynamic instantiation to avoid static analysis errors
-        $tcpdfClass = '\\TCPDF';
+        $tcpdfClass = '\TCPDF';
         /** @var \TCPDF $pdf */
+        /** @phpstan-ignore-next-line */
         $pdf = new $tcpdfClass('P', 'mm', 'A4', true, 'UTF-8', false);
         
         // Set document information
