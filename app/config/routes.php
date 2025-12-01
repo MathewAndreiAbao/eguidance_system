@@ -119,16 +119,6 @@ $router->get('/reports/pdf_export', 'ReportsController@pdf_export');
 // Chatbot Route
 $router->match('/chatbot/chat', 'ChatbotController@chat', 'GET|POST');
 
-// Maps Integration
-$router->get('/maps', 'MapsController@index');
-$router->get('/maps/campus', 'MapsController@campus');
-
-// API Test Route
-$router->get('/api-test', 'APITestController@index');
-$router->get('/api-test/test_calendarific', 'APITestController@test_calendarific');
-$router->get('/api-test/test_groq', 'APITestController@test_groq');
-$router->get('/api-test/test_holiday_check', 'APITestController@test_holiday_check');
-
 // reCAPTCHA Test Route
 $router->get('/auth/recaptcha-test', function() {
     require_once APP_DIR . 'views/auth/recaptcha_test.php';

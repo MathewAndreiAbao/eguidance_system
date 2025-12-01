@@ -10,7 +10,7 @@ class ChatbotController extends Controller {
         $this->call->database();
         $this->call->library('session');
         $this->call->library('Auth');
-        $this->call->library('APIIntegration');
+        $this->call->library('GroqAIAPI');
         $this->call->model('AppointmentModel');
         
         // Load analytics configuration for API keys
@@ -37,7 +37,7 @@ class ChatbotController extends Controller {
         }
         
         // All questions go directly to Groq AI API
-        $aiResponse = $this->APIIntegration->get_ai_response($message, $conversationHistory);
+        $aiResponse = $this->GroqAIAPI->get_ai_response($message, $conversationHistory);
         echo json_encode(['response' => $aiResponse]);
         exit;
     }
@@ -47,7 +47,7 @@ class ChatbotController extends Controller {
      */
     private function getAIResponse($message, $conversationHistory = []) {
         // Use the APIIntegration library method
-        return $this->APIIntegration->get_ai_response($message, $conversationHistory);
+        return $this->GroqAIAPI->get_ai_response($message, $conversationHistory);
     }
 }
 

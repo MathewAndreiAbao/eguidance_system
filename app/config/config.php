@@ -329,4 +329,29 @@ $config['recaptcha_site_key'] = '6LeESx0sAAAAAOo74v_UnLzOmOHVtin52xFYZomV';
 $config['recaptcha_secret_key'] = '6LeESx0sAAAAANKrE1BJu6WZ_M0OMInltkuAlL0F';
 $config['recaptcha_version'] = 'v2';
 
+/*
+|--------------------------------------------------------------------------
+| External API Configuration
+|--------------------------------------------------------------------------
+|
+| Settings for external API integrations
+|
+*/
+// Calendarific API Integration
+$config['calendarific_api_key'] = 'u4nTWWaO6BhGBABL0AW0ax4ugprtPiiN';
+$config['calendarific_api_endpoint'] = 'https://calendarific.com/api/v2/holidays';
+
+// Groq AI Chatbot API
+$config['groq_api_key'] = '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';
+$config['groq_api_endpoint'] = 'https://api.groq.com/openai/v1/chat/completions';
+
+// ZenQuotes API (no key required for basic usage)
+$config['zenquotes_api_key'] = '';
+$config['zenquotes_api_endpoint'] = 'https://zenquotes.io/api';
+
+// API Integration Settings
+$config['external_api_enabled'] = true;
+$config['api_rate_limit'] = 100; // requests per hour
+$config['api_require_auth'] = true;
+
 ?>

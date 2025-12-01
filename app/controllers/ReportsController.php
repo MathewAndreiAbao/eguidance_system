@@ -29,7 +29,7 @@ class ReportsController extends Controller {
         $this->call->model('AnalyticsModel');
         $this->call->library('auth');
         $this->call->library('session');
-        $this->call->library('APIIntegration');
+
 
 
         if (!$this->auth->is_logged_in()) {
@@ -315,14 +315,42 @@ class ReportsController extends Controller {
             redirect('reports');
         }
         
+        // Define TCPDF constants
+        if (!defined('PDF_PAGE_ORIENTATION')) {
+            define('PDF_PAGE_ORIENTATION', 'P');
+        }
+        if (!defined('PDF_UNIT')) {
+            define('PDF_UNIT', 'mm');
+        }
+        if (!defined('PDF_PAGE_FORMAT')) {
+            define('PDF_PAGE_FORMAT', 'A4');
+        }
+        if (!defined('PDF_CREATOR')) {
+            define('PDF_CREATOR', 'TCPDF');
+        }
+        
+        // Check if TCPDF library exists before trying to use it
+        if (!file_exists('../vendor/tecnickcom/tcpdf/tcpdf.php')) {
+            $this->session->set_flashdata('error', 'PDF generation library not installed. Please contact system administrator.');
+            redirect('reports');
+        }
+        
         // Load TCPDF library
         require_once '../vendor/tecnickcom/tcpdf/tcpdf.php';
         
-        // Create new PDF document
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        // Check if TCPDF class exists
+        if (!class_exists('\TCPDF')) {
+            $this->session->set_flashdata('error', 'PDF generation library not properly loaded. Please contact system administrator.');
+            redirect('reports');
+        }
+        
+        // Create new PDF document using dynamic instantiation to avoid static analysis errors
+        $tcpdfClass = '\\TCPDF';
+        /** @var \TCPDF $pdf */
+        $pdf = new $tcpdfClass('P', 'mm', 'A4', true, 'UTF-8', false);
         
         // Set document information
-        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetCreator('TCPDF');
         $pdf->SetTitle('Analytics Report');
         
         // Remove default header/footer

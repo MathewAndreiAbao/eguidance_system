@@ -13,7 +13,7 @@ class DashboardController extends Controller {
         $this->call->library('session');
         $this->call->library('Auth');
         $this->call->library('pagination');
-        $this->call->library('APIIntegration');
+        $this->call->library('ZenQuotesAPI');
         
         if (!$this->Auth->is_logged_in()) {
             redirect('auth/login');
@@ -53,7 +53,7 @@ class DashboardController extends Controller {
         });
         
         // Get motivational quote using ZenQuotes API
-        $motivational_quote = $this->APIIntegration->get_inspirational_quote();
+        $motivational_quote = $this->ZenQuotesAPI->get_inspirational_quote();
         
         // Pagination for resources
         $current_page = (int) segment(3) ?: 1;
@@ -113,7 +113,7 @@ class DashboardController extends Controller {
         });
         
         // Get motivational quote using ZenQuotes API
-        $motivational_quote = $this->APIIntegration->get_inspirational_quote();
+        $motivational_quote = $this->ZenQuotesAPI->get_inspirational_quote();
         
         // Pagination for resources
         $current_page = (int) segment(3) ?: 1;

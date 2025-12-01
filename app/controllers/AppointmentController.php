@@ -9,7 +9,7 @@ class AppointmentController extends Controller {
         $this->call->model('UserModel');
         $this->call->library('auth');
         $this->call->library('pagination');
-        $this->call->library('APIIntegration');
+        $this->call->library('CalendarificAPI');
     }
 
     /**
@@ -198,7 +198,7 @@ class AppointmentController extends Controller {
         $data['counselors'] = $this->UserModel->get_all_counselors();
         
         // Get holidays using Calendarific API and format for frontend
-        $raw_holidays = $this->APIIntegration->get_holidays();
+        $raw_holidays = $this->CalendarificAPI->get_holidays();
         $holiday_dates = [];
         foreach ($raw_holidays as $holiday) {
             if (isset($holiday['date']['iso'])) {
@@ -230,7 +230,7 @@ class AppointmentController extends Controller {
                 ];
             
             // Check if the selected date is a holiday using Calendarific API
-            $is_holiday = $this->APIIntegration->is_holiday($appointment_data['date']);
+            $is_holiday = $this->CalendarificAPI->is_holiday($appointment_data['date']);
             if ($is_holiday) {
                 $this->session->set_flashdata('error', 'The selected date is a holiday: ' . $is_holiday);
                 $this->call->view('appointments/create', $data);
@@ -606,7 +606,7 @@ class AppointmentController extends Controller {
         if (!$this->auth->is_logged_in()) redirect('auth/login');
         
         // Get holidays using Calendarific API
-        $raw_holidays = $this->APIIntegration->get_holidays();
+        $raw_holidays = $this->CalendarificAPI->get_holidays();
         
         // Sort holidays by date
         usort($raw_holidays, function($a, $b) {
