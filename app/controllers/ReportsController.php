@@ -16,7 +16,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
  * - GET /reports/export?format=[json|csv]&start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
  * 
  * External Integration Support:
- * - Configure API keys in app/config/analytics.php
+ * - Configure API keys in app/config/config.php
  * - Supports Google Analytics, Mixpanel, Segment, and custom endpoints
  * - API authentication ready (currently session-based, API key support available)
  */
@@ -330,13 +330,13 @@ class ReportsController extends Controller {
         }
         
         // Check if TCPDF library exists before trying to use it
-        if (!file_exists('../vendor/tecnickcom/tcpdf/tcpdf.php')) {
+        if (!file_exists('../../vendor/tecnickcom/tcpdf/tcpdf.php')) {
             $this->session->set_flashdata('error', 'PDF generation library not installed. Please contact system administrator.');
             redirect('reports');
         }
         
         // Load TCPDF library
-        require_once '../vendor/tecnickcom/tcpdf/tcpdf.php';
+        require_once '../../vendor/tecnickcom/tcpdf/tcpdf.php';
         
         // Check if TCPDF class exists
         if (!class_exists('\TCPDF')) {

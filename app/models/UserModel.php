@@ -42,13 +42,18 @@ class UserModel extends Model {
      * @return array
      */
     public function get_all_counselors() {
-        $counselors = $this->db->table('users u')
-            ->join('profiles p', 'u.id = p.user_id', 'left')
-            ->where('u.role', 'counselor')
-            ->select('u.id, u.username, u.role, p.name, p.email, p.phone')
-            ->get_all();
-        
-        return is_array($counselors) ? $counselors : [];
+        try {
+            $counselors = $this->db->table('users u')
+                ->join('profiles p', 'u.id = p.user_id', 'left')
+                ->where('u.role', 'counselor')
+                ->select('u.id, u.username, u.role, p.name, p.email, p.phone')
+                ->get_all();
+            
+            return is_array($counselors) ? $counselors : [];
+        } catch (Exception $e) {
+            error_log('Database error in get_all_counselors: ' . $e->getMessage());
+            return [];
+        }
     }
 
     /**

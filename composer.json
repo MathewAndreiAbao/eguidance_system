@@ -3,7 +3,8 @@
     "description": "E-Guidance System",
     "type": "project",
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "tecnickcom/tcpdf": "^6.10"
     },
     "autoload": {
         "psr-4": {

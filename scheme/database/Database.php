@@ -67,6 +67,13 @@ class Database {
     private $dbprefix = NULL;
 
     /**
+     * Connection Error
+     *
+     * @var string
+     */
+    private $connectionError = NULL;
+
+    /**
      * Table name
      *
      * @var string
@@ -242,13 +249,14 @@ class Database {
             $this->db = new PDO($dsn, $username, $password, $options);
              $this->driver = $this->db->getAttribute(PDO::ATTR_DRIVER_NAME);
         } catch (Exception $e) {
-            $error = load_class('Errors', 'kernel');
-            $error->show_database_error(
-                $e->getMessage(),
-                $this->getSQL ?? '',
-                $this->bindValues ?? [],
-                $e
-            );
+            // Log the error for debugging
+            error_log("Database connection failed: " . $e->getMessage());
+            
+            // Store the error message for later use
+            $this->connectionError = $e->getMessage();
+            
+            // Re-throw the exception to be handled by the application
+            throw new Exception("Database connection failed. Please check your database configuration.");
         }
     }
 
@@ -1145,7 +1153,7 @@ class Database {
      *
      * @param int $records_per_page
      * @param int $page
-     * @return void
+     * @return Database
      */
     public function pagination($records_per_page, $page)
     {

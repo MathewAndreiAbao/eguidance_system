@@ -40,12 +40,17 @@ class ProfileModel extends Model {
     }
 
     public function getProfileWithUser($user_id) {
-        $result = $this->db->table('profiles p')
-                       ->join('users u', 'p.user_id = u.id')
-                       ->where('p.user_id', $user_id)
-                       ->select('p.*, u.username, u.role')
-                       ->get();
-        return $result ? $result : null;
+        try {
+            $result = $this->db->table('profiles p')
+                           ->join('users u', 'p.user_id = u.id')
+                           ->where('p.user_id', $user_id)
+                           ->select('p.*, u.username, u.role')
+                           ->get();
+            return $result ? $result : null;
+        } catch (Exception $e) {
+            error_log('Database error in getProfileWithUser: ' . $e->getMessage());
+            return null;
+        }
     }
 
     public function get_profile_with_user($user_id) {

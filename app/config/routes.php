@@ -20,9 +20,15 @@ $router->get('/auth/logout', 'AuthController@logout');
 
 
 // Student Dashboard
+$router->get('/student', function() {
+    redirect('student/dashboard');
+});
 $router->get('/student/dashboard', 'DashboardController@student');
 
 // Counselor Dashboard
+$router->get('/counselor', function() {
+    redirect('counselor/dashboard');
+});
 $router->get('/counselor/dashboard', 'DashboardController@counselor');
 
 // Profile Management

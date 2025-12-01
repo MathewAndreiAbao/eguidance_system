@@ -60,12 +60,17 @@ class ResourceModel extends Model {
     }
 
     public function get_recent($limit = 5) {
-        return $this->db->table('resources r')
-                       ->join('users u', 'r.counselor_id = u.id', 'LEFT')
-                       ->select('r.*, u.username as counselor_name')
-                       ->order_by('r.created_at DESC')
-                       ->limit($limit)
-                       ->get_all();
+        try {
+            return $this->db->table('resources r')
+                           ->join('users u', 'r.counselor_id = u.id', 'LEFT')
+                           ->select('r.*, u.username as counselor_name')
+                           ->order_by('r.created_at DESC')
+                           ->limit($limit)
+                           ->get_all();
+        } catch (Exception $e) {
+            error_log('Database error in get_recent: ' . $e->getMessage());
+            return [];
+        }
     }
     
     public function count_all() {

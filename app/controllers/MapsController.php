@@ -24,7 +24,7 @@ class MapsController extends Controller {
 
     public function index() {
         // Load map configuration
-        $map_config = require_once APP_DIR . 'config/maps.php';
+        $map_config = require_once APP_DIR . 'libraries/maps.php';
         // Pass configuration to view
         $data['map_config'] = $map_config;
         // Load the campus map view with data
@@ -33,7 +33,7 @@ class MapsController extends Controller {
     
     public function campus() {
         // Load map configuration
-        $map_config = require_once APP_DIR . 'config/maps.php';
+        $map_config = require_once APP_DIR . 'libraries/maps.php';
         // Pass configuration to view
         $data['map_config'] = $map_config;
         // Load the campus map view with data

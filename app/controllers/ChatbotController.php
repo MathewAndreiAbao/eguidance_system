@@ -13,11 +13,7 @@ class ChatbotController extends Controller {
         $this->call->library('GroqAIAPI');
         $this->call->model('AppointmentModel');
         
-        // Load analytics configuration for API keys
-        $config_file = APP_DIR . 'config/analytics.php';
-        if (file_exists($config_file)) {
-            $this->config = require $config_file;
-        }
+        // API keys are now loaded from config.php
         
         if (!$this->Auth->is_logged_in()) {
             redirect('auth/login');
