@@ -64,7 +64,7 @@ $config['VERSION']                 = '4.4.0';
 | -------------------------------------------------------------------
 | Values: development and production
 */
-$config['ENVIRONMENT']             = 'development';
+$config['ENVIRONMENT']             = 'production';
 
 /*
 |--------------------------------------------------------------------------
@@ -325,8 +325,8 @@ $config['csrf_regenerate']         = FALSE;
 | Settings for Google reCAPTCHA integration
 |
 */
-$config['recaptcha_site_key'] = '6LeLEBwsAAAAAAnYlN9wAbm52zSy53BHLeTTAGJz';
-$config['recaptcha_secret_key'] = '6LeLEBwsAAAAABzESfPrMigOF0iW5OILmAi0oBqU';
+$config['recaptcha_site_key'] = '6LeESx0sAAAAAOo74v_UnLzOmOHVtin52xFYZomV';
+$config['recaptcha_secret_key'] = '6LeESx0sAAAAANKrE1BJu6WZ_M0OMInltkuAlL0F';
 $config['recaptcha_version'] = 'v2';
 
 ?>
