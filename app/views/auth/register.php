@@ -1,51 +1,78 @@
 <?php
 $page_title = 'Register - EGuidance System';
 $form_title = 'Create Account';
-$form_subtitle = 'Fill in the information to create your account';
-$icon = 'fas fa-user-plus';
 
 ob_start();
 ?>
 <form action="<?= site_url('auth/register') ?>" method="POST">
-    <div class="mb-4">
-        <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+
+    <!-- Username -->
+    <div class="mb-2">
+        <label for="username" class="block text-gray-700 text-sm font-bold mb-1">Username</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i class="fas fa-user text-gray-400"></i>
             </div>
-            <input type="text" name="username" id="username" class="input-field pl-10 shadow appearance-none border border-primary rounded-lg w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300" placeholder="Choose a username" required>
+            <input type="text" name="username" id="username"
+                class="input-field pl-10 shadow appearance-none border border-primary rounded-lg w-full py-2 px-2 
+                text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300"
+                placeholder="Choose a username" required>
         </div>
     </div>
 
-    <div class="mb-4">
-        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+    <!-- Email -->
+    <div class="mb-2">
+        <label for="email" class="block text-gray-700 text-sm font-bold mb-1">Email</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i class="fas fa-envelope text-gray-400"></i>
             </div>
-            <input type="email" name="email" id="email" class="input-field pl-10 shadow appearance-none border border-primary rounded-lg w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300" placeholder="your.email@example.com" required>
+            <input type="email" name="email" id="email"
+                class="input-field pl-10 shadow appearance-none border border-primary rounded-lg w-full py-2 px-2 
+                text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300"
+                placeholder="your.email@example.com" required>
         </div>
     </div>
 
-    <div class="mb-4">
-        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+    <!-- Password -->
+    <div class="mb-2">
+        <label for="password" class="block text-gray-700 text-sm font-bold mb-1">Password</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i class="fas fa-lock text-gray-400"></i>
             </div>
-            <input type="password" name="password" id="password" class="input-field pl-10 shadow appearance-none border border-primary rounded-lg w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300" placeholder="Create a strong password" required>
+            <input type="password" name="password" id="password"
+                class="input-field pl-10 shadow appearance-none border border-primary rounded-lg w-full py-2 px-2 
+                text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300"
+                placeholder="Create a strong password" required>
         </div>
     </div>
 
+    <!-- Confirm Password -->
+    <div class="mb-2">
+        <label for="confirm_password" class="block text-gray-700 text-sm font-bold mb-1">Confirm Password</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-lock text-gray-400"></i>
+            </div>
+            <input type="password" name="confirm_password" id="confirm_password"
+                class="input-field pl-10 shadow appearance-none border border-primary rounded-lg w-full py-2 px-2 
+                text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300"
+                placeholder="Confirm your password" required>
+        </div>
+    </div>
 
-
-    <div class="mb-6">
-        <label for="role" class="block text-gray-700 text-sm font-bold mb-2">Role</label>
+    <!-- Role Select -->
+    <div class="mb-3">
+        <label for="role" class="block text-gray-700 text-sm font-bold mb-1">Role</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i class="fas fa-user-tag text-gray-400"></i>
             </div>
-            <select name="role" id="role" class="input-field pl-10 shadow appearance-none border border-primary rounded-lg w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300" required>
+            <select name="role" id="role"
+                class="input-field pl-10 shadow appearance-none border border-primary rounded-lg w-full py-2 px-2 
+                text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300"
+                required>
                 <option value="">Select your role</option>
                 <option value="student">Student</option>
                 <option value="counselor">Counselor</option>
@@ -55,16 +82,20 @@ ob_start();
 
     <!-- reCAPTCHA -->
     <?php if (config_item('ENVIRONMENT') !== 'development'): ?>
-    <div class="mb-6">
+    <div class="mb-3">
         <div class="g-recaptcha" data-sitekey="<?= config_item('recaptcha_site_key') ?>" data-size="normal"></div>
     </div>
     <?php endif; ?>
 
-    <div class="flex items-center justify-between mb-6">
-        <button type="submit" class="btn-primary text-yellow-300 font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 flex items-center justify-center">
+    <!-- Submit Button -->
+    <div class="flex items-center justify-between mb-3">
+        <button type="submit"
+            class="btn-primary text-yellow-300 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline 
+            transition duration-300 flex items-center justify-center">
             <i class="fas fa-user-plus mr-2"></i>Create Account
         </button>
     </div>
+
 </form>
 <?php
 $form_content = ob_get_clean();
@@ -76,7 +107,6 @@ $footer_links = '
     </a>
 ';
 
-// Add reCAPTCHA script
 $recaptcha_script = '<script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>';
 
 require_once __DIR__ . '/split_auth_template.php';
