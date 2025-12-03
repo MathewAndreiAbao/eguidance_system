@@ -37,15 +37,7 @@ ob_start();
         </div>
     </div>
 
-    <div class="mb-4">
-        <label for="confirm_password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
-        <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-lock text-gray-400"></i>
-            </div>
-            <input type="password" name="confirm_password" id="confirm_password" class="input-field pl-10 shadow appearance-none border border-primary rounded-lg w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300" placeholder="Confirm your password" required>
-        </div>
-    </div>
+
 
     <div class="mb-6">
         <label for="role" class="block text-gray-700 text-sm font-bold mb-2">Role</label>
